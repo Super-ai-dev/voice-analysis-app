@@ -10,6 +10,11 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   output: 'standalone',
+  distDir: 'build',
+  // Vercelのビルドプロセスをカスタマイズ
+  experimental: {
+    forceSwcTransforms: true,
+  },
 };
 
 module.exports = nextConfig;

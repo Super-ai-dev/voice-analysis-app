@@ -1,8 +1,8 @@
 {
-  "buildCommand": "bash ./vercel-build.sh",
+  "buildCommand": "NEXT_IGNORE_ESLINT=1 NEXT_IGNORE_TYPESCRIPT_ERRORS=1 next build",
   "installCommand": "npm install",
   "framework": "nextjs",
-  "outputDirectory": ".next",
+  "outputDirectory": "build",
   "devCommand": "npm run dev",
   "env": {
     "NEXT_TELEMETRY_DISABLED": "1",
