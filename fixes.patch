@@ -1,0 +1,58 @@
+# Patch to unblock Vercel build by resolving ESLint errors and cleaning the repo
+# Apply with:  git apply fixes.patch  (from repo root)
+
+# 1. Clean‑up: ignore build artifacts and duplicate source folder
+# -------------------------------------------------------------
+# Adds .next/ (build output) and src/ (duplicate app) to .gitignore so they are not linted or committed.
+
+diff --git a/.gitignore b/.gitignore
+--- a/.gitignore
++++ b/.gitignore
+@@
+ node_modules/
++# Next.js build output
++.next/
++
++# Duplicate source folder (everything was moved to /app)
++src/
+
+# 2. app/admin/page.tsx – replace raw <a> with <Link>
+# ----------------------------------------------------
+diff --git a/app/admin/page.tsx b/app/admin/page.tsx
+--- a/app/admin/page.tsx
++++ b/app/admin/page.tsx
+@@
+-import Link from 'next/link';
++import Link from 'next/link';
+@@
+-        {/* ナビゲーション */}
+-        <a href="/">Home</a>
++        {/* ナビゲーション */}
++        <Link href="/" className="text-primary hover:underline">
++          Home
++        </Link>
+@@
+-      {user ? <AdminDashboardLayout /> : <AuthForm />}
++      {user ? <AdminDashboardLayout /> : <AuthForm />}
+ 
+ # 3. app/api/start-job/route.ts – remove unused variable
+ # ------------------------------------------------------
+ # If you still need the variable later, prefix it with _ or disable the rule locally.
+
+diff --git a/app/api/start-job/route.ts b/app/api/start-job/route.ts
+--- a/app/api/start-job/route.ts
++++ b/app/api/start-job/route.ts
+@@
+-    const fileExists = false; // TODO: will be used later
++    // TODO: implement your business logic here
+ 
+ # 4. Optional: ensure /src directory is removed from git history once and for all
+ # -----------------------------------------------------------------------------
+ #   git rm -r --cached src
+ #   rm -rf src
+ #   git commit -m "Remove duplicate src directory"
+ #
+ # After applying this patch:
+ #   1. Run:  npx next lint   (errors should be zero)
+ #   2. Run:  npx next build  (should succeed)
+ #   3. Push to Vercel        (deployment passes)
