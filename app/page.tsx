@@ -6,6 +6,7 @@ import { useAppStore } from '@/lib/store';
 import AuthForm from '@/components/auth/auth-form';
 import UserDashboardLayout from '@/components/layout/user-dashboard-layout';
 import { Toaster } from 'sonner';
+import Link from 'next/link';
 
 export default function Home() {
   const { user, setUser } = useAppStore();

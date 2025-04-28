@@ -4,12 +4,15 @@ import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
 import { useAppStore } from '@/lib/store';
 import AuthForm from '@/components/auth/auth-form';
-import UserDashboardLayout from '@/components/layout/user-dashboard-layout';
+import AdminDashboardLayout from '@/components/layout/admin-dashboard-layout';
 import { Toaster } from 'sonner';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
-export default function Home() {
+export default function AdminPage() {
   const { user, setUser } = useAppStore();
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
   useEffect(() => {
     // 現在のセッションを取得
@@ -54,7 +57,7 @@ export default function Home() {
   return (
     <>
       <Toaster position="top-right" />
-      {user ? <UserDashboardLayout /> : <AuthForm />}
+      {user ? <AdminDashboardLayout /> : <AuthForm />}
     </>
   );
 }
